@@ -5,19 +5,34 @@
 | Скилл | Что делает |
 |---|---|
 | [`1c-bit-extension`](1c-bit-extension/SKILL.md) | Стандарт тиражных расширений 1С: раздел «Первый БИТ», справка и «Возможности расширения», имена и роль, код сразу под 1С:Фреш, сборка `.cfe`, внутреннее описание по шаблону, клиентская PDF-карточка, краткое описание. Заготовка расширения создаётся одной командой. |
+| [`1c-bit-code`](1c-bit-code/SKILL.md) | Как писать код 1С: просто, без лишних механизмов, по стандартам 1С и сразу под 1С:Фреш. Перед сдачей Claude проверяет только свой код (git diff, свои объекты и вставки расширения), заимствованное из типовой не трогает; итог — таблица замечаний и «что не проверено». Подключается сам при любой работе с кодом 1С. |
 | [`lt-writing`](lt-writing/SKILL.md) | Текст листа требований (ЛТ) на доработку: разбор рисков до текста, затем пять полей — бизнес-задача, способ реализации, требования к заказчику, приёмка, этапы; часы — отдельной рекомендацией. |
 
-## Установка
+## Установка и обновление — через Claude
 
-Скопировать папку нужного скилла в `%USERPROFILE%\.claude\skills\` (Windows) или `~/.claude/skills/`:
+Написать Claude Code (подставить нужный скилл):
+
+> Установи скилл 1c-bit-code из https://github.com/Alibans/bit-1c-skills
+
+Обновить — так же: «Обнови скилл 1c-bit-code из https://github.com/Alibans/bit-1c-skills». После установки или
+обновления — перезапустить Claude Code (в VS Code: закрыть и открыть окно). Скилл подключается сам, когда задача ему
+подходит (например: «доработай обработку», «напиши расширение», «проверь мой код», «сделай расширение для клиентов
+по стандарту БИТ», «напиши ЛТ на доработку»).
+
+**Для Claude — как установить или обновить скилл `<имя>`:**
+1. Если папки `%USERPROFILE%\.claude\bit-1c-skills` нет — `git clone https://github.com/Alibans/bit-1c-skills.git`
+   в неё; если есть — `git -C %USERPROFILE%\.claude\bit-1c-skills pull`. Нет git — скачать
+   https://github.com/Alibans/bit-1c-skills/archive/refs/heads/main.zip и распаковать туда же.
+2. Заменить папку `%USERPROFILE%\.claude\skills\<имя>` копией `bit-1c-skills\<имя>` целиком (старую удалить, чтобы не
+   остались убранные файлы). Другие скиллы в `skills` не трогать.
+3. Проверить, что есть `%USERPROFILE%\.claude\skills\<имя>\SKILL.md`, и сказать пользователю перезапустить Claude Code.
+
+Вручную (без Claude):
 
 ```
 git clone https://github.com/Alibans/bit-1c-skills.git
-xcopy /E /I bit-1c-skills\1c-bit-extension %USERPROFILE%\.claude\skills\1c-bit-extension
-xcopy /E /I bit-1c-skills\lt-writing %USERPROFILE%\.claude\skills\lt-writing
+xcopy /E /I bit-1c-skills\1c-bit-code %USERPROFILE%\.claude\skills\1c-bit-code
 ```
-После копирования перезапустить Claude Code. Скилл подключается сам, когда задача ему подходит
-(например: «сделай расширение для клиентов по стандарту БИТ», «напиши ЛТ на доработку»).
 
 `1c-bit-extension` использует скиллы работы с файлами 1С из [cc-1c-skills](https://github.com/Nikolay-Shirokov/cc-1c-skills)
 (`cfe-*`, `meta-*`, `form-*`, `db-*`) — их нужно установить отдельно.
